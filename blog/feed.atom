@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Karim Mohamed - @komtcho</title>
+    <link href="https://komtcho.me/blog" />
+    <link type="application/atom+xml" rel="self" href="https://komtcho.me/blog/feed.atom" />
+    <updated>2022-08-06T11:39:22+00:00</updated>
+    <id>https://komtcho.me/blog/feed.atom</id>
+    <author>
+        <name>Komtcho</name>
+    </author>
+                <entry>
+    <id>https://komtcho.me/blog/solid-introduction</id>
+    <link type="text/html" rel="alternate" href="https://komtcho.me/blog/solid-introduction" />
+    <title>SOLID introduction</title>
+    <published>2022-08-06T13:14:19+00:00</published>
+    <updated>2022-08-06T13:14:19+00:00</updated>
+    <author>
+        <name>Komtcho</name>
+    </author>
+    <summary type="html">SOLID is a popular set of design principles that are used in object-oriented software development. SOLID is an acronym that stands for five key design principles: single responsibility principle, open-closed principle, Liskov substitution principle,......</summary>
+    <content type="html"><![CDATA[
+        <h2>History of solid principles</h2>
+
+<p>SOLID is a popular set of design principles that are used in object-oriented software development. SOLID is an acronym that stands for five key design principles: single responsibility principle, open-closed principle, Liskov substitution principle, interface segregation principle, and dependency inversion principle. All five are commonly used by software engineers and provide some important benefits for developers.</p>
+
+<p>The SOLID principles were developed by Robert C. Martin in a 2000 essay, “Design Principles and Design Patterns,” although the acronym was coined later by Michael Feathers. In his essay, Martin acknowledged that successful software will change and develop. As it changes, it becomes increasingly complex. Without good design principles, Martin warns that software becomes rigid, fragile, immobile, and viscous. The SOLID principles were developed to combat these problematic design patterns.</p>
+
+<h2>What is the meaning of this (SOLID) word:-</h2>
+
+<ul>
+<li>S ⇒ Single-Responsibility Principle.</li>
+<li>O ⇒ Open-Closed Principle.</li>
+<li>L ⇒ Liskov Substitution Principle.</li>
+<li>I ⇒ Interface Segregation Principle.</li>
+<li>D ⇒ Dependency Inversion Principle.</li>
+</ul>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://komtcho.me/blog/auto-deploy-by-ssh-via-github-action</id>
+    <link type="text/html" rel="alternate" href="https://komtcho.me/blog/auto-deploy-by-ssh-via-github-action" />
+    <title>Auto deploy by SSH via GitHub action</title>
+    <published>2022-06-18T23:42:30+00:00</published>
+    <updated>2022-06-18T23:42:30+00:00</updated>
+    <author>
+        <name>Komtcho</name>
+    </author>
+    <summary type="html">Create GitHub action to auto-deploy your project from any branch from the project repository.
+
+
+
+Create a new folder if does not exist at the root of your project &lt;code&gt;.github/workflows&lt;/code&gt; and inside this folder create a &lt;code&gt;deploy.yml&lt;/code&gt;......</summary>
+    <content type="html"><![CDATA[
+        <p>Create GitHub action to auto-deploy your project from any branch from the project repository.</p>
+
+<h2>1 create GitHub workflows</h2>
+
+<p>Create a new folder if does not exist at the root of your project <code>.github/workflows</code> and inside this folder create a <code>deploy.yml</code> file.</p>
+
+<h3>1.1 Create <code>deploy.yml</code> file</h3>
+
+<pre><code class="language-yml">name: Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy to Production
+      uses: appleboy/ssh-action@master
+      with:
+        username: '&lt;username&gt;'
+        host: '&lt;host&gt;'
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: '22'
+        script: |
+          cd &lt;root_project&gt;
+          chmod 777 ./deploy.sh
+          ./deploy.sh
+</code></pre>
+
+<ul>
+<li>username: Your SSH username.</li>
+<li>host: Your IP server.</li>
+<li>password: Set SSH password on Actions secrets.</li>
+<li>port: SSH Port on the server.</li>
+</ul>
+
+<h3>1.2 Create <code>deploy.sh</code> file</h3>
+
+<p>This file the responsible for deploy process we can write your script for the deployment steps. Create this file at the root of a project.</p>
+
+<pre><code class="language-bash">#!/bin/sh
+set -e
+
+echo "Deploying application ..."
+
+# Update codebase
+git fetch origin main
+git reset --hard origin/main
+
+echo "Application deployed!"
+</code></pre>
+
+<p>In the next push to the main branch can see GitHub workflow is running ✔️.</p>
+
+<h3>1.3 Actions secrets</h3>
+
+<p>For set secret value on actions secrets:-</p>
+
+<ul>
+<li>Go to <code>settings</code> and from the sidebar select <code>secrets</code> and choose <code>Actions</code>.</li>
+<li>Click on <code>New repository secret</code> button.</li>
+<li>Set the Name for this secret value <code>SSH_PASSWORD</code> and set yout ssh password in value.</li>
+</ul>
+
+<p>Thank you and best regards.</p>
+    ]]></content>
+</entry>
+    </feed>
